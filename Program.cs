@@ -1,4 +1,8 @@
 
+using Microsoft.EntityFrameworkCore;
+using pedidos.Data;
+using pedidos.Services;
+
 namespace pedidos
 {
     public class Program
@@ -10,7 +14,13 @@ namespace pedidos
             // Add services to the container.
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddScoped<PedidosService>();
+            builder.Services.AddScoped<RelatoriosService>();
+            builder.Services.AddScoped<UsuariosService>();
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
